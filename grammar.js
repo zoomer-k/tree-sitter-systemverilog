@@ -541,19 +541,19 @@ const rules = {
   ansi_port_declaration: $ => prec('ansi_port_declaration', choice(
     prec.dynamic(0, seq(
       optchoice($.net_port_header, $.interface_port_header),
-      field('port_name', $.port_identifier),
+      $.port_identifier,
       repeat(prec('ansi_port_declaration', $.unpacked_dimension)),
       optseq('=', $.constant_expression)
     )),
     prec.dynamic(1, seq(
       optional($.variable_port_header),
-      field('port_name', $.port_identifier),
+      $.port_identifier,
       repeat($._variable_dimension),
       optseq('=', $.constant_expression)
     )),
     seq(
       optional($.port_direction), '.',
-      field('port_name', $.port_identifier),
+      $.port_identifier,
       '(', optional($.expression), ')'
     )
   )),
@@ -1605,8 +1605,8 @@ const rules = {
     choice(
       // A.10.28: In a tf_port_item, it shall be illegal to omit the explicit
       // port_identifier except within a function_prototype or task_prototype.
-      seq($.data_type_or_implicit, optional(field('name', $.port_identifier))),
-      field('name', $.port_identifier),
+      seq($.data_type_or_implicit, optional($.port_identifier)),
+      $.port_identifier,
     ),
     repeat($._variable_dimension),
     optseq('=', $.expression)
@@ -2341,7 +2341,7 @@ const rules = {
   named_port_connection: $ => seq(
     repeat($.attribute_instance),
     choice(
-      seq(optional($._directives), '.', field('port_name', $.port_identifier), optseq('(', optional(field('connection', $.expression)), ')')),
+      seq(optional($._directives), '.', $.port_identifier, optseq('(', optional(field('connection', $.expression)), ')')),
       '.*'
     )
   ),
@@ -2435,12 +2435,12 @@ const rules = {
   generate_block: $ => choice(
     $._generate_item,
     seq(
-      optseq(field('name', $.generate_block_identifier), ':'),
+      optseq( $.generate_block_identifier, ':'),
       'begin',
-      optseq(':', field('name', $.generate_block_identifier)),
+      optseq(':', $.generate_block_identifier),
       repeat($._generate_item),
       'end',
-      optseq(':', field('name', $.generate_block_identifier))
+      optseq(':', $.generate_block_identifier)
     )
   ),
 
