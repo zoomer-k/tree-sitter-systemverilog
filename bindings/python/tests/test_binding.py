@@ -1,7 +1,6 @@
 from unittest import TestCase
 
-import tree_sitter
-import tree-sitter-systemverilog
+import tree_sitter, tree_sitter_systemverilog
 
 
 class TestLanguage(TestCase):
