@@ -1,30 +1,75 @@
 name: CI
+
 on:
-  workflow_dispatch:
-  pull_request:
   push:
+    branches: [master]
+    # paths:
+    #   - grammar.js
+    #   - src/**
+    #   - test/**
+    #   - bindings/**
+    #   - binding.gyp
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-
+    name: Test parser
+    #runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest] # windows-latest still not supported by tree-sitter/setup-action@v1
-
+          abi_version: [14, 15]
+    #     os: [ubuntu-latest, windows-latest, macos-14]
+    env:
+      TREE_SITTER_ABI_VERSION: ${{ matrix.abi_version }}
     steps:
-      - name: Clone tree-sitter-systemverilog
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup tree-sitter
-        uses: tree-sitter/setup-action@v1
-
-      - name: Generate parser
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v1
+      - name: Install dependencies
+        run: npm ci --omit dev --omit peer --omit optional
+      # - name: Verify parser
+      #   run: git diff --exit-code -- src/parser.c
+      - name: Test parser
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-parser: true
+      - name: Test python binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-python: true
+      - name: Test other binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-rust: true
+          test-node: true
+          test-go: true
+          test-swift: true
+      - name: Generate parser 14
+        if: ${{ matrix.abi_version != 15 }}
         run: |
-          tree-sitter generate
-
-      - name: Run tests
-        run: |
-          tree-sitter test
-
+          tree-sitter generate --abi=${{ matrix.abi_version }}
+          [[ ! -d node_modules ]] || rm -rf node_modules
+      - name: Generate parser 15
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          generate: ${{ matrix.abi_version == 15 }}
+      # - name: Generate parser
+      #   if: ${{ matrix.abi_version != 15 }}
+      #   run: tree-sitter generate --abi=${{ matrix.abi_version }}
+      # - name: Parse examples
+      #   uses: tree-sitter/parse-action@v4
+      #   with:
+      #     files: examples/*
