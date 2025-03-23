@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import tree_sitter
-import tree_sitter_systemverilog
+import tree-sitter-systemverilog
 
 
 class TestLanguage(TestCase):
