@@ -49,6 +49,8 @@ jobs:
         run: npm ci --omit dev --omit peer --omit optional
       # - name: Verify parser
       #   run: git diff --exit-code -- src/parser.c
+      - name: Install tree-sitter module
+        run: npm install tree-sitter
       
       - name: Generate parser 14
         if: ${{ matrix.abi_version != 15 }}
