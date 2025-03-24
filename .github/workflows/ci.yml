@@ -79,7 +79,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version: stable
+          node-version: 18
           cache-dependency-path: package-lock.json
       - name: Build module
         shell: sh
