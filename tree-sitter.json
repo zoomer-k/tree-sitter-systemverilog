@@ -1,12 +1,12 @@
 {
   "grammars": [
     {
-      "name": "verilog",
-      "camelcase": "Verilog",
-      "scope": "source.verilog",
+      "name": "systemverilog",
+      "camelcase": "systemVerilog",
+      "scope": "source.systemverilog",
       "path": ".",
-      "file-types": null,
-      "injection-regex": "^verilog$"
+      "file-types": ["sv"],
+      "injection-regex": "sv"
     }
   ],
   "metadata": {
