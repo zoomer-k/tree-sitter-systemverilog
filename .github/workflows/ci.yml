@@ -50,15 +50,15 @@ jobs:
       # - name: Verify parser
       #   run: git diff --exit-code -- src/parser.c
       
-      # - name: Generate parser 14
-      #   if: ${{ matrix.abi_version != 15 }}
-      #   run: |
-      #     tree-sitter generate --abi=${{ matrix.abi_version }}
-      #     [[ ! -d node_modules ]] || rm -rf node_modules
-      # - name: Generate parser 15
-      #   uses: tree-sitter/parser-test-action@v2
-      #   with:
-      #     generate: ${{ matrix.abi_version == 15 }}
+      - name: Generate parser 14
+        if: ${{ matrix.abi_version != 15 }}
+        run: |
+          tree-sitter generate --abi=${{ matrix.abi_version }}
+          [[ ! -d node_modules ]] || rm -rf node_modules
+      - name: Generate parser 15
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          generate: ${{ matrix.abi_version == 15 }}
       - name: Test parser
         uses: tree-sitter/parser-test-action@v2
         with:
@@ -77,15 +77,15 @@ jobs:
           test-rust: true
           test-go: true
           test-swift: true
-      - name: Generate parser 14
-        if: ${{ matrix.abi_version != 15 }}
-        run: |
-          tree-sitter generate --abi=${{ matrix.abi_version }}
-          [[ ! -d node_modules ]] || rm -rf node_modules
-      - name: Generate parser 15
-        uses: tree-sitter/parser-test-action@v2
-        with:
-          generate: ${{ matrix.abi_version == 15 }}
+      # - name: Generate parser 14
+      #   if: ${{ matrix.abi_version != 15 }}
+      #   run: |
+      #     tree-sitter generate --abi=${{ matrix.abi_version }}
+      #     [[ ! -d node_modules ]] || rm -rf node_modules
+      # - name: Generate parser 15
+      #   uses: tree-sitter/parser-test-action@v2
+      #   with:
+      #     generate: ${{ matrix.abi_version == 15 }}
       # - name: Generate parser
       #   if: ${{ matrix.abi_version != 15 }}
       #   run: tree-sitter generate --abi=${{ matrix.abi_version }}
