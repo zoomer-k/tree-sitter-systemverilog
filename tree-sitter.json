@@ -3,7 +3,7 @@
     {
       "name": "systemverilog",
       "camelcase": "systemVerilog",
-      "scope": "source.systemverilog",
+      "scope": "source.sv",
       "path": ".",
       "file-types": ["sv"],
       "injection-regex": "sv"
