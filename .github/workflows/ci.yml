@@ -69,11 +69,27 @@ jobs:
         with:
           test-python: true
           test-parser: false
-      - name: Test node binding
-        uses: tree-sitter/parser-test-action@v2
+      # - name: Test node binding
+      #   uses: tree-sitter/parser-test-action@v2
+      #   with:
+      #     test-node: true
+      #     test-parser: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          test-node: true
-          test-parser: false
+          cache: npm
+          node-version: stable
+          cache-dependency-path: package-lock.json
+      - name: Build module
+        shell: sh
+        run: npm install
+      - name: list module
+        shell: sh
+        run: npm list
+      - name: Run tests
+        shell: sh
+        run: node --test bindings/node/*_test.js
       - name: Test other binding
         uses: tree-sitter/parser-test-action@v2
         with:
