@@ -36,12 +36,13 @@ jobs:
     #     os: [ubuntu-latest, windows-latest, macos-14]
     env:
       TREE_SITTER_ABI_VERSION: ${{ matrix.abi_version }}
-      TREE_SITTER_REF: ${{ matrix.tree_sitter_version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v1
+        with:
+          tree-sitter-ref: ${{ matrix.tree_sitter_version }}
       # need json lock file
       # - name: Install dependencies
       #   run: npm ci --omit dev --omit peer --omit optional
