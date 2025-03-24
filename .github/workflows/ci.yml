@@ -87,11 +87,14 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
         with:
           test-python: true
+      - name: Test node binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-node: true
       - name: Test other binding
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: true
-          test-node: true
           test-go: true
           test-swift: true
       - name: Generate parser 14
