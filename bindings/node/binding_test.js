@@ -5,5 +5,7 @@ const Parser = require("tree-sitter");
 
 test("can load grammar", () => {
   const parser = new Parser();
-  assert.doesNotThrow(() => parser.setLanguage(require(".")));
+  const languageModule = require(".");
+  assert(languageModule, "Language module is undefined");
+  assert.doesNotThrow(() => parser.setLanguage(languageModule));
 });
