@@ -66,16 +66,19 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
         with:
           test-python: true
+          test-parser: false
       - name: Test node binding
         uses: tree-sitter/parser-test-action@v2
         with:
           test-node: true
+          test-parser: false
       - name: Test other binding
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: true
           test-go: true
           test-swift: true
+          test-parser: false
       # - name: Generate parser 14
       #   if: ${{ matrix.abi_version != 15 }}
       #   run: |
