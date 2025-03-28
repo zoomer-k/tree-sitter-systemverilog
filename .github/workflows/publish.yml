@@ -17,11 +17,18 @@ jobs:
       generate: true
       attestations: true
   npm:
-    uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
-    secrets:
-      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-    with:
-      generate: true
+    name: npm
+    runs-on: ${{matrix.os}}
+    strategy: 
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: release npm
+        uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
+        # secrets:
+        #   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        with:
+          generate: true
   # crates:
   #   uses: tree-sitter/workflows/.github/workflows/package-crates.yml@main
   #   secrets:
