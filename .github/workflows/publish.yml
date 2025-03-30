@@ -11,33 +11,14 @@ permissions:
   attestations: write
 
 jobs:
-  build_node:
-    name: Build NodeJS binaries on ${{matrix.os}}
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
-
-      - name: init update
-        run: tree-sitter init --update
-
-      # - name: npm install
-      #   run: npm install
-      # need json lock file
-      - name: Install dependencies
-        run: npm ci --omit dev --omit peer --omit optional
-      # - name: Set up NodeJS
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     cache: npm
-      #     #node-version: ${{inputs.node-version}}
-      # - name: Install dependencies
-      #   run: npm i --omit peer --omit optional
+  github:
+    uses: tree-sitter/workflows/.github/workflows/release.yml@main
+    with:
+      generate: true
+      attestations: true
+  npm:
+    uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
+    secrets:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    with:
+      generate: true
