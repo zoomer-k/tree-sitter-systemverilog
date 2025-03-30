@@ -34,7 +34,7 @@ jobs:
           abi_version: [14, 15]
           tree_sitter_version: [v0.25.3, v0.24.4]
           
-    #     os: [ubuntu-latest, windows-latest, macos-14]
+          os: [ubuntu-latest, windows-latest, macos-14]
     env:
       TREE_SITTER_ABI_VERSION: ${{ matrix.abi_version }}
     steps:
