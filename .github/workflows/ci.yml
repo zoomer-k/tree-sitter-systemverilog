@@ -11,14 +11,14 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest] # windows-latest still not supported by tree-sitter/setup-action@v1
+        os: [ubuntu-latest, macos-latest, windows-latest] # windows-latest still not supported by tree-sitter/setup-action@v1
 
     steps:
       - name: Clone tree-sitter-systemverilog
         uses: actions/checkout@v4
 
       - name: Setup tree-sitter
-        uses: tree-sitter/setup-action@v1
+        uses: tree-sitter/setup-action@v2
 
       - name: Generate parser
         run: |
@@ -27,4 +27,22 @@ jobs:
       - name: Run tests
         run: |
           tree-sitter test
+          
+      - name: Test python binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-python: true
+          test-parser: false
+      - name: Test node binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-node: true
+          test-parser: false
+      - name: Test other binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-rust: true
+          test-go: true
+          test-swift: true
+          test-parser: false
 
