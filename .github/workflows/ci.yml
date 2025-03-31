@@ -60,13 +60,15 @@ jobs:
           cache: npm
           node-version: latest
           cache-dependency-path: package-lock.json
-      - name: Build module
-        shell: sh
-        run: npm install
       - name: install tree-sitter
         shell: sh
         #run: npm install tree-sitter@0.22.4
         run: npm install --force -no-optional tree-sitter@github:MaximusSeniorem/node-tree-sitter#up_core_lib
+      
+      - name: Build module
+        shell: sh
+        run: npm install
+
       - name: list module
         shell: sh
         run: npm list
