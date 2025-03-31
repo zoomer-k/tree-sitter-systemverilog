@@ -23,6 +23,8 @@ jobs:
       # need json lock file
       - name: Install dependencies
         run: npm ci --omit dev --omit peer --omit optional
+      - name: version check
+        run: tree-sitter -V
 
       - name: Generate parser
         run: |
@@ -37,16 +39,18 @@ jobs:
         with:
           test-python: true
           test-parser: false
-      - name: Test node binding
-        uses: tree-sitter/parser-test-action@v2
-        with:
-          test-node: true
-          test-parser: false
+
       - name: Test other binding
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: true
           test-go: true
           test-swift: true
+          test-parser: false
+          
+      - name: Test node binding
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-node: true
           test-parser: false
 
