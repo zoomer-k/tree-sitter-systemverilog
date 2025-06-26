@@ -55,30 +55,35 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: true
-          #test-node: true
+          test-node: true
           # test-go: true
           # test-swift: true
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          cache: npm
-          node-version: latest
-          cache-dependency-path: package-lock.json
-      - name: Build module
-        shell: sh
-        run: npm install
-      - name: list module
-        shell: sh
-        run: npm list
-      - name: Run tests
-        shell: sh
-        run: node --test bindings/node/*_test.js
+          
+      #node test
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     cache: npm
+      #     node-version: latest
+      #     cache-dependency-path: package-lock.json
+      # - name: Build module
+      #   shell: sh
+      #   run: npm install
+      # - name: list module
+      #   shell: sh
+      #   run: npm list
+      # - name: Run tests
+      #   shell: sh
+      #   run: node --test bindings/node/*_test.js
       
-      - name: Generate parser 
-        run: |
-          tree-sitter generate --abi=${{ matrix.abi_version }}
-          [[ ! -d node_modules ]] || rm -rf node_modules
+      # - name: Generate parser 
+      #   run: |
+      #     tree-sitter generate --abi=${{ matrix.abi_version }}
+      #     [[ ! -d node_modules ]] || rm -rf node_modules
+
+
+
+          
       # - name: Generate parser
       #   if: ${{ matrix.abi_version != 15 }}
       #   run: tree-sitter generate --abi=${{ matrix.abi_version }}
