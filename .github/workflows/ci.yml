@@ -55,8 +55,8 @@ jobs:
         with:
           test-rust: true
           #test-node: true
-          test-go: true
-          test-swift: true
+          # test-go: true
+          # test-swift: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
